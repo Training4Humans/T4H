@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Prompt Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        .field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .field input[type="text"],
+        .field input[type="number"],
+        .field textarea,
+        .field select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .emphasis-control {
+            display: flex;
+            align-items: center;
+        }
+        .emphasis-control input[type="text"] {
+            flex: 1;
+        }
+        .emphasis-buttons {
+            margin-left: 10px;
+        }
+        .emphasis-buttons button {
+            padding: 5px 10px;
+            margin-left: 5px;
+        }
+        #prompt {
+            white-space: pre-wrap;
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        #copyButton {
+            margin-top: 10px;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Image Prompt Generator</h1>
+
+    <!-- Image Type and Quality -->
+    <div class="section" id="section1">
+        <h2>1. Image Type and Quality</h2>
+        <div class="field">
+            <label for="imageType">Image Type</label>
+            <input type="text" id="imageType" placeholder="e.g., RAW photo, digital painting">
+        </div>
+        <div class="field">
+            <label for="qualityDescriptors">Quality Descriptors</label>
+            <input type="text" id="qualityDescriptors" placeholder="e.g., high-definition, ultra HD">
+        </div>
+    </div>
+
+    <!-- Subject Description -->
+    <div class="section" id="section2">
+        <h2>2. Subject Description</h2>
+        <div class="field">
+            <label for="framingPose">Framing and Pose</label>
+            <input type="text" id="framingPose" placeholder="e.g., full-body, dynamic pose">
+        </div>
+        <div class="field">
+            <label for="subjectCharacteristics">Subject Characteristics</label>
+            <input type="text" id="subjectCharacteristics" placeholder="e.g., a [physical attributes] [gender/being] with [specific features]">
+        </div>
+        <div class="field">
+            <label for="clothingEquipment">Clothing/Equipment</label>
+            <input type="text" id="clothingEquipment" placeholder="e.g., wearing a [adjective] [clothing/equipment]">
+        </div>
+    </div>
+
+    <!-- Emphasized Features and Details -->
+    <div class="section" id="section3">
+        <h2>3. Emphasized Features and Details</h2>
+        <div class="field">
+            <label for="emphasizedElement1">Emphasized Element 1</label>
+            <div class="emphasis-control">
+                <input type="text" id="emphasizedElement1" placeholder="e.g., glowing eyes">
+                <div class="emphasis-buttons">
+                    <button type="button" onclick="decreaseEmphasis('emphasis1')">-</button>
+                    <input type="number" id="emphasis1" value="0" readonly>
+                    <button type="button" onclick="increaseEmphasis('emphasis1')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label for="emphasizedElement2">Emphasized Element 2</label>
+            <div class="emphasis-control">
+                <input type="text" id="emphasizedElement2" placeholder="e.g., intricate tattoos">
+                <div class="emphasis-buttons">
+                    <button type="button" onclick="decreaseEmphasis('emphasis2')">-</button>
+                    <input type="number" id="emphasis2" value="0" readonly>
+                    <button type="button" onclick="increaseEmphasis('emphasis2')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label for="additionalFeatures">Additional Features</label>
+            <input type="text" id="additionalFeatures" placeholder="e.g., vibrant colors, detailed background">
+        </div>
+    </div>
+
+    <!-- Style and Artistic Influence -->
+    <div class="section" id="section4">
+        <h2>4. Style and Artistic Influence</h2>
+        <div class="field">
+            <label for="styleDescriptors">Style Descriptors</label>
+            <input type="text" id="styleDescriptors" placeholder="e.g., elegant, gritty, minimalist">
+        </div>
+        <div class="field">
+            <label for="lightingColor">Lighting and Color</label>
+            <input type="text" id="lightingColor" placeholder="e.g., soft lighting, high contrast">
+        </div>
+        <div class="field">
+            <label for="artistReference">Artist or Style Reference</label>
+            <input type="text" id="artistReference" placeholder="e.g., photo by Greg Rutkowski">
+        </div>
+    </div>
+
+    <!-- Themes and Genres -->
+    <div class="section" id="section5">
+        <h2>5. Themes and Genres</h2>
+        <div class="field">
+            <label for="genreTags">Genre Tags</label>
+            <input type="text" id="genreTags" placeholder="e.g., futuristic, fantasy, steampunk">
+        </div>
+        <div class="field">
+            <label for="thematicElements">Thematic Elements</label>
+            <input type="text" id="thematicElements" placeholder="e.g., dystopian setting, high-tech environment">
+        </div>
+    </div>
+
+    <!-- Photographic Specifications -->
+    <div class="section" id="section6">
+        <h2>6. Photographic Specifications</h2>
+        <div class="field">
+            <label for="cameraModel">Camera Model/Type</label>
+            <input type="text" id="cameraModel" placeholder="e.g., Canon EOS R5, XF IQ4">
+        </div>
+        <div class="field">
+            <label for="lensSettings">Lens and Settings</label>
+            <input type="text" id="lensSettings" placeholder="e.g., 50mm, ISO 1000, 1/250s">
+        </div>
+    </div>
+
+    <!-- Post-processing and Software -->
+    <div class="section" id="section7">
+        <h2>7. Post-processing and Software</h2>
+        <div class="field">
+            <label for="editingSoftware">Editing Software</label>
+            <input type="text" id="editingSoftware" placeholder="e.g., Adobe Lightroom, Photoshop">
+        </div>
+        <div class="field">
+            <label for="postProcessingEffects">Post-processing Effects</label>
+            <input type="text" id="postProcessingEffects" placeholder="e.g., color grading, HDR processing">
+        </div>
+    </div>
+
+    <!-- Generate Prompt Button -->
+    <button type="button" onclick="generatePrompt()">Generate Prompt</button>
+
+    <!-- Display Generated Prompt -->
+    <div id="prompt"></div>
+    <button id="copyButton" onclick="copyPrompt()" style="display:none;">Copy Prompt</button>
+
+    <!-- JavaScript Code -->
+    <script>
+        function increaseEmphasis(emphasisId) {
+            let emphasisInput = document.getElementById(emphasisId);
+            let value = parseInt(emphasisInput.value);
+            if (value < 3) {
+                emphasisInput.value = value + 1;
+            }
+        }
+
+        function decreaseEmphasis(emphasisId) {
+            let emphasisInput = document.getElementById(emphasisId);
+            let value = parseInt(emphasisInput.value);
+            if (value > -3) {
+                emphasisInput.value = value - 1;
+            }
+        }
+
+        function generatePrompt() {
+            let promptParts = [];
+
+            // Section 1
+            let imageType = document.getElementById('imageType').value;
+            let qualityDescriptors = document.getElementById('qualityDescriptors').value;
+            if (imageType) promptParts.push(imageType);
+            if (qualityDescriptors) promptParts.push(qualityDescriptors);
+
+            // Section 2
+            let framingPose = document.getElementById('framingPose').value;
+            let subjectCharacteristics = document.getElementById('subjectCharacteristics').value;
+            let clothingEquipment = document.getElementById('clothingEquipment').value;
+            if (framingPose) promptParts.push(framingPose);
+            if (subjectCharacteristics) promptParts.push(subjectCharacteristics);
+            if (clothingEquipment) promptParts.push(clothingEquipment);
+
+            // Section 3
+            let emphasizedElements = [];
+            for (let i = 1; i <= 2; i++) {
+                let element = document.getElementById('emphasizedElement' + i).value;
+                let emphasis = parseInt(document.getElementById('emphasis' + i).value);
+                if (element) {
+                    let emphasisSymbols = '';
+                    if (emphasis > 0) {
+                        emphasisSymbols = '+'.repeat(emphasis);
+                    } else if (emphasis < 0) {
+                        emphasisSymbols = '-'.repeat(-emphasis);
+                    }
+                    element = '(' + element + ')' + emphasisSymbols;
+                    emphasizedElements.push(element);
+                }
+            }
+            if (emphasizedElements.length > 0) {
+                promptParts.push(emphasizedElements.join(', '));
+            }
+            let additionalFeatures = document.getElementById('additionalFeatures').value;
+            if (additionalFeatures) promptParts.push(additionalFeatures);
+
+            // Section 4
+            let styleDescriptors = document.getElementById('styleDescriptors').value;
+            let lightingColor = document.getElementById('lightingColor').value;
+            let artistReference = document.getElementById('artistReference').value;
+            if (styleDescriptors) promptParts.push(styleDescriptors);
+            if (lightingColor) promptParts.push(lightingColor);
+            if (artistReference) promptParts.push(artistReference);
+
+            // Section 5
+            let genreTags = document.getElementById('genreTags').value;
+            let thematicElements = document.getElementById('thematicElements').value;
+            if (genreTags) promptParts.push(genreTags);
+            if (thematicElements) promptParts.push(thematicElements);
+
+            // Section 6
+            let cameraModel = document.getElementById('cameraModel').value;
+            let lensSettings = document.getElementById('lensSettings').value;
+            if (cameraModel) promptParts.push(cameraModel);
+            if (lensSettings) promptParts.push(lensSettings);
+
+            // Section 7
+            let editingSoftware = document.getElementById('editingSoftware').value;
+            let postProcessingEffects = document.getElementById('postProcessingEffects').value;
+            if (editingSoftware) promptParts.push(editingSoftware);
+            if (postProcessingEffects) promptParts.push(postProcessingEffects);
+
+            // Combine all parts
+            let finalPrompt = promptParts.join(', ');
+
+            // Display the prompt
+            document.getElementById('prompt').innerText = finalPrompt;
+            document.getElementById('copyButton').style.display = 'inline-block';
+        }
+
+        function copyPrompt() {
+            let promptText = document.getElementById('prompt').innerText;
+            navigator.clipboard.writeText(promptText).then(function() {
+                alert('Prompt copied to clipboard!');
+            }, function(err) {
+                alert('Could not copy prompt: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
